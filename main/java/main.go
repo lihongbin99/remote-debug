@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 type OsType int8
@@ -85,26 +86,9 @@ type MavenDependency struct {
 	filePath []string
 }
 
-/*
-
-javac ^
--classpath C:\Users\Lee\.m2\repository\io\lihongbin\model\1.0.0\model-1.0.0.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-starter\2.7.2\spring-boot-starter-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot\2.7.2\spring-boot-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-context\5.3.22\spring-context-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\2.7.2\spring-boot-autoconfigure-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-starter-logging\2.7.2\spring-boot-starter-logging-2.7.2.jar;C:\Users\Lee\.m2\repository\ch\qos\logback\logback-classic\1.2.11\logback-classic-1.2.11.jar;C:\Users\Lee\.m2\repository\ch\qos\logback\logback-core\1.2.11\logback-core-1.2.11.jar;C:\Users\Lee\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.17.2\log4j-to-slf4j-2.17.2.jar;C:\Users\Lee\.m2\repository\org\apache\logging\log4j\log4j-api\2.17.2\log4j-api-2.17.2.jar;C:\Users\Lee\.m2\repository\org\slf4j\jul-to-slf4j\1.7.36\jul-to-slf4j-1.7.36.jar;C:\Users\Lee\.m2\repository\jakarta\annotation\jakarta.annotation-api\1.3.5\jakarta.annotation-api-1.3.5.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-core\5.3.22\spring-core-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-jcl\5.3.22\spring-jcl-5.3.22.jar;C:\Users\Lee\.m2\repository\org\yaml\snakeyaml\1.30\snakeyaml-1.30.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-starter-test\2.7.2\spring-boot-starter-test-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-test\2.7.2\spring-boot-test-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\2.7.2\spring-boot-test-autoconfigure-2.7.2.jar;C:\Users\Lee\.m2\repository\com\jayway\jsonpath\json-path\2.7.0\json-path-2.7.0.jar;C:\Users\Lee\.m2\repository\net\minidev\json-smart\2.4.8\json-smart-2.4.8.jar;C:\Users\Lee\.m2\repository\net\minidev\accessors-smart\2.4.8\accessors-smart-2.4.8.jar;C:\Users\Lee\.m2\repository\org\ow2\asm\asm\9.1\asm-9.1.jar;C:\Users\Lee\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\Lee\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\2.3.3\jakarta.xml.bind-api-2.3.3.jar;C:\Users\Lee\.m2\repository\jakarta\activation\jakarta.activation-api\1.2.2\jakarta.activation-api-1.2.2.jar;C:\Users\Lee\.m2\repository\org\assertj\assertj-core\3.22.0\assertj-core-3.22.0.jar;C:\Users\Lee\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\Lee\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.2\junit-jupiter-5.8.2.jar;C:\Users\Lee\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\Lee\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Lee\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\Lee\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Lee\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.2\junit-jupiter-params-5.8.2.jar;C:\Users\Lee\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\Lee\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;C:\Users\Lee\.m2\repository\org\mockito\mockito-core\4.5.1\mockito-core-4.5.1.jar;C:\Users\Lee\.m2\repository\net\bytebuddy\byte-buddy\1.12.12\byte-buddy-1.12.12.jar;C:\Users\Lee\.m2\repository\net\bytebuddy\byte-buddy-agent\1.12.12\byte-buddy-agent-1.12.12.jar;C:\Users\Lee\.m2\repository\org\objenesis\objenesis\3.2\objenesis-3.2.jar;C:\Users\Lee\.m2\repository\org\mockito\mockito-junit-jupiter\4.5.1\mockito-junit-jupiter-4.5.1.jar;C:\Users\Lee\.m2\repository\org\skyscreamer\jsonassert\1.5.1\jsonassert-1.5.1.jar;C:\Users\Lee\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-test\5.3.22\spring-test-5.3.22.jar;C:\Users\Lee\.m2\repository\org\xmlunit\xmlunit-core\2.9.0\xmlunit-core-2.9.0.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-starter-web\2.7.2\spring-boot-starter-web-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-starter-json\2.7.2\spring-boot-starter-json-2.7.2.jar;C:\Users\Lee\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.13.3\jackson-databind-2.13.3.jar;C:\Users\Lee\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.13.3\jackson-annotations-2.13.3.jar;C:\Users\Lee\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.13.3\jackson-core-2.13.3.jar;C:\Users\Lee\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.13.3\jackson-datatype-jdk8-2.13.3.jar;C:\Users\Lee\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.13.3\jackson-datatype-jsr310-2.13.3.jar;C:\Users\Lee\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.13.3\jackson-module-parameter-names-2.13.3.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\2.7.2\spring-boot-starter-tomcat-2.7.2.jar;C:\Users\Lee\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\9.0.65\tomcat-embed-core-9.0.65.jar;C:\Users\Lee\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\9.0.65\tomcat-embed-el-9.0.65.jar;C:\Users\Lee\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\9.0.65\tomcat-embed-websocket-9.0.65.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-web\5.3.22\spring-web-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-beans\5.3.22\spring-beans-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-webmvc\5.3.22\spring-webmvc-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-aop\5.3.22\spring-aop-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\spring-expression\5.3.22\spring-expression-5.3.22.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-devtools\2.7.2\spring-boot-devtools-2.7.2.jar;C:\Users\Lee\.m2\repository\org\springframework\boot\spring-boot-configuration-processor\2.7.2\spring-boot-configuration-processor-2.7.2.jar;C:\Users\Lee\.m2\repository\org\projectlombok\lombok\1.18.24\lombok-1.18.24.jar ^
--d C:\Users\Lee\IdeaProjects\remote-debug-test\target\remote/classes ^
-service\app\src\main\java\io\lihongbin\remote\debug\test\controller\Controller.java ^
-service\app\src\main\java\io\lihongbin\remote\debug\test\RemoteDebugTestApplication.java
-
--sourcepath io ^
-
-java \
--Dfile.encoding=UTF-8 \
--classpath /home/ubuntu/remote-debug-test/service/app/src/main/java/test:/home/ubuntu/.m2/repository/io/lihongbin/model/1.0.0/model-1.0.0.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-starter/2.7.2/spring-boot-starter-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot/2.7.2/spring-boot-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/spring-context/5.3.22/spring-context-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.7.2/spring-boot-autoconfigure-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.7.2/spring-boot-starter-logging-2.7.2.jar:/home/ubuntu/.m2/repository/ch/qos/logback/logback-classic/1.2.11/logback-classic-1.2.11.jar:/home/ubuntu/.m2/repository/ch/qos/logback/logback-core/1.2.11/logback-core-1.2.11.jar:/home/ubuntu/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.17.2/log4j-to-slf4j-2.17.2.jar:/home/ubuntu/.m2/repository/org/apache/logging/log4j/log4j-api/2.17.2/log4j-api-2.17.2.jar:/home/ubuntu/.m2/repository/org/slf4j/jul-to-slf4j/1.7.36/jul-to-slf4j-1.7.36.jar:/home/ubuntu/.m2/repository/jakarta/annotation/jakarta.annotation-api/1.3.5/jakarta.annotation-api-1.3.5.jar:/home/ubuntu/.m2/repository/org/springframework/spring-core/5.3.22/spring-core-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/spring-jcl/5.3.22/spring-jcl-5.3.22.jar:/home/ubuntu/.m2/repository/org/yaml/snakeyaml/1.30/snakeyaml-1.30.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-starter-test/2.7.2/spring-boot-starter-test-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-test/2.7.2/spring-boot-test-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/2.7.2/spring-boot-test-autoconfigure-2.7.2.jar:/home/ubuntu/.m2/repository/com/jayway/jsonpath/json-path/2.7.0/json-path-2.7.0.jar:/home/ubuntu/.m2/repository/net/minidev/json-smart/2.4.8/json-smart-2.4.8.jar:/home/ubuntu/.m2/repository/net/minidev/accessors-smart/2.4.8/accessors-smart-2.4.8.jar:/home/ubuntu/.m2/repository/org/ow2/asm/asm/9.1/asm-9.1.jar:/home/ubuntu/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:/home/ubuntu/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/2.3.3/jakarta.xml.bind-api-2.3.3.jar:/home/ubuntu/.m2/repository/jakarta/activation/jakarta.activation-api/1.2.2/jakarta.activation-api-1.2.2.jar:/home/ubuntu/.m2/repository/org/assertj/assertj-core/3.22.0/assertj-core-3.22.0.jar:/home/ubuntu/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/ubuntu/.m2/repository/org/junit/jupiter/junit-jupiter/5.8.2/junit-jupiter-5.8.2.jar:/home/ubuntu/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/home/ubuntu/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/ubuntu/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/home/ubuntu/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/ubuntu/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.8.2/junit-jupiter-params-5.8.2.jar:/home/ubuntu/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/home/ubuntu/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/home/ubuntu/.m2/repository/org/mockito/mockito-core/4.5.1/mockito-core-4.5.1.jar:/home/ubuntu/.m2/repository/net/bytebuddy/byte-buddy/1.12.12/byte-buddy-1.12.12.jar:/home/ubuntu/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.12/byte-buddy-agent-1.12.12.jar:/home/ubuntu/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:/home/ubuntu/.m2/repository/org/mockito/mockito-junit-jupiter/4.5.1/mockito-junit-jupiter-4.5.1.jar:/home/ubuntu/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/ubuntu/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/ubuntu/.m2/repository/org/springframework/spring-test/5.3.22/spring-test-5.3.22.jar:/home/ubuntu/.m2/repository/org/xmlunit/xmlunit-core/2.9.0/xmlunit-core-2.9.0.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-starter-web/2.7.2/spring-boot-starter-web-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-starter-json/2.7.2/spring-boot-starter-json-2.7.2.jar:/home/ubuntu/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.13.3/jackson-databind-2.13.3.jar:/home/ubuntu/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.13.3/jackson-annotations-2.13.3.jar:/home/ubuntu/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.13.3/jackson-core-2.13.3.jar:/home/ubuntu/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.13.3/jackson-datatype-jdk8-2.13.3.jar:/home/ubuntu/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.3/jackson-datatype-jsr310-2.13.3.jar:/home/ubuntu/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.13.3/jackson-module-parameter-names-2.13.3.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/2.7.2/spring-boot-starter-tomcat-2.7.2.jar:/home/ubuntu/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/9.0.65/tomcat-embed-core-9.0.65.jar:/home/ubuntu/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/9.0.65/tomcat-embed-el-9.0.65.jar:/home/ubuntu/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/9.0.65/tomcat-embed-websocket-9.0.65.jar:/home/ubuntu/.m2/repository/org/springframework/spring-web/5.3.22/spring-web-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/spring-beans/5.3.22/spring-beans-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/spring-webmvc/5.3.22/spring-webmvc-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/spring-aop/5.3.22/spring-aop-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/spring-expression/5.3.22/spring-expression-5.3.22.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-devtools/2.7.2/spring-boot-devtools-2.7.2.jar:/home/ubuntu/.m2/repository/org/springframework/boot/spring-boot-configuration-processor/2.7.2/spring-boot-configuration-processor-2.7.2.jar:/home/ubuntu/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar \
-io.lihongbin.remote.debug.test.RemoteDebugTestApplication
-
-*/
-
 // 需要配置 MAVEN_HOME 环境变量, 否则需要在程序启动参数指定 -maven
 // 需要配置 JAVA_HOME 环境变量, 否则需要在程序启动参数指定 -java
-// 需要先对父工程 mvn install
+// 需要先对父工程 mvn compile install
 func main() {
 	// 校验参数
 	verifyParam()
@@ -125,25 +109,11 @@ func main() {
 		classpath = classpath[:len(classpath)-1]
 	}
 
-	// 创建编译路径
-	destPath := fmt.Sprintf("%s/target/remote/classes", projectPath)
-	if err := os.MkdirAll(destPath, 0777); err != nil {
-		exit("mkdir error", err)
-	}
+	classPath := fmt.Sprintf("%s/%s/target/classes", projectPath, modulePath)
 
-	// 生成 编译命令 和 运行命令
-	allClass := getAllClass()
-	compileCommand := ""
-	runCommand := ""
-	if len(classpath) > 0 {
-		compileCommand = fmt.Sprintf("\"%s\" -classpath \"%s\" -d \"%s\"%s", javac, classpath, destPath, allClass)
-		runCommand = fmt.Sprintf("\"%s\" -Dfile.encoding=UTF-8 -classpath \"%s%c%s\" %s", java, destPath, os.PathListSeparator, classpath, runClass)
-	} else {
-		compileCommand = fmt.Sprintf("\"%s\" -d \"%s%s\"", javac, destPath, allClass)
-		runCommand = fmt.Sprintf("\"%s\" -Dfile.encoding=UTF-8 %s", java, runClass)
-	}
+	// 生成 运行命令
+	runCommand := fmt.Sprintf("\"%s\" -Dfile.encoding=UTF-8 -classpath \"%s%c%s\" %s", java, classPath, os.PathListSeparator, classpath, runClass)
 
-	fmt.Println(compileCommand)
 	fmt.Println(runCommand)
 }
 
@@ -205,34 +175,30 @@ func parseMavenDependency() []MavenDependency {
 	// 用来判断是否jar包是否已经添加了, 避免重复添加
 	jarExistCache := make(map[string]int8, 0)
 
+	// 编译项目的源文件 编译项目依赖的 jar包
+	startTime := time.Now()
+	cmdResult := runCmd(mvn, projectPath, []string{"mvn", "compile"})
+	if !strings.Contains(cmdResult, "BUILD SUCCESS") {
+		exit("mvn compile error", fmt.Errorf(cmdResult))
+	}
+	endTime := time.Now()
+	fmt.Println("mvn exec compile time:", endTime.UnixMilli()-startTime.UnixMilli(), "ms")
+	startTime = time.Now()
+	cmdResult = runCmd(mvn, projectPath, []string{"mvn", "install"})
+	if !strings.Contains(cmdResult, "BUILD SUCCESS") {
+		exit("mvn install error", fmt.Errorf(cmdResult))
+	}
+	endTime = time.Now()
+	fmt.Println("mvn exec install time:", endTime.UnixMilli()-startTime.UnixMilli(), "ms")
+
 	// 获取 maven 返回的依赖列表
-	cmd := &exec.Cmd{
-		Path: mvn,
-		Args: []string{"mvn", "dependency:list"},
-		Dir:  fmt.Sprintf("%s/%s", projectPath, modulePath),
-	}
-	pipe, err := cmd.StdoutPipe()
-	if err != nil {
-		exit("pipe maven dependency list error", err)
-	}
-	if err := cmd.Start(); err != nil {
-		exit("start maven dependency list error", err)
-	}
-	mavenResult := make([]byte, 0)
-	buf := make([]byte, 64*1024)
-	for {
-		readLen, err := pipe.Read(buf)
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			exit("read maven dependency list error", err)
-		}
-		mavenResult = append(mavenResult, buf[:readLen]...)
+	cmdResult = runCmd(mvn, fmt.Sprintf("%s/%s", projectPath, modulePath), []string{"mvn", "dependency:list"})
+	if !strings.Contains(cmdResult, "BUILD SUCCESS") {
+		exit("mvn dependency:list error", fmt.Errorf(cmdResult))
 	}
 
 	// 分割每一行依赖项
-	rows := strings.Split(string(mavenResult), "\n")
+	rows := strings.Split(cmdResult, "\n")
 	start := false
 	for _, row := range rows {
 		// 通过这个条件判断获取依赖是否成功
@@ -288,36 +254,10 @@ func parseMavenDependency() []MavenDependency {
 
 	// 判断 maven 获取依赖是否成功
 	if !start {
-		exit("mvn dependency list error", fmt.Errorf("%s", string(mavenResult)))
+		exit("mvn dependency list error", fmt.Errorf("%s", cmdResult))
 	}
 
 	return mavenDependencyList
-}
-
-func getAllClass() string {
-	path := fmt.Sprintf("%s/%s/src/main/java", projectPath, modulePath)
-	moduleDir, err := os.ReadDir(path)
-	if err != nil {
-		exit("open module path error", err)
-	}
-	return doGetAllClass("", path, fmt.Sprintf("%s/src/main/java", modulePath), moduleDir)
-}
-
-func doGetAllClass(result, path, classPath string, dir []os.DirEntry) string {
-	for _, fileInfo := range dir {
-		if fileInfo.IsDir() {
-			classPath = fmt.Sprintf("%s/%s", classPath, fileInfo.Name())
-			subDirPath := fmt.Sprintf("%s/%s", path, fileInfo.Name())
-			subDir, err := os.ReadDir(subDirPath)
-			if err != nil {
-				exit("open sub dir error", err)
-			}
-			result = doGetAllClass(result, subDirPath, classPath, subDir)
-		} else if strings.HasSuffix(fileInfo.Name(), ".java") {
-			result = fmt.Sprintf("%s %s/%s", result, classPath, fileInfo.Name())
-		}
-	}
-	return result
 }
 
 func exit(msg string, err error) {
@@ -332,4 +272,32 @@ func exit(msg string, err error) {
 		_, _ = os.Stdin.Read(buf)
 	}
 	os.Exit(1)
+}
+
+func runCmd(path, dir string, args []string) string {
+	cmd := &exec.Cmd{
+		Path: path,
+		Args: args,
+		Dir:  dir,
+	}
+	pipe, err := cmd.StdoutPipe()
+	if err != nil {
+		exit("cmd pipe error", err)
+	}
+	if err := cmd.Start(); err != nil {
+		exit("cmd start error", err)
+	}
+	result := make([]byte, 0)
+	buf := make([]byte, 64*1024)
+	for {
+		readLen, err := pipe.Read(buf)
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			exit("cmd read error", err)
+		}
+		result = append(result, buf[:readLen]...)
+	}
+	return string(result)
 }
